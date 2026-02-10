@@ -1,11 +1,11 @@
 package com.fp.solid.inyeccion_dependencias.pizzeria.problema.opcion2;
 
 import com.fp.solid.inyeccion_dependencias.pizzeria.problema.opcion2.model.Reserva;
-import com.fp.solid.inyeccion_dependencias.pizzeria.problema.opcion2.service.ServicioReservas;
+import com.fp.solid.inyeccion_dependencias.pizzeria.problema.opcion2.service.ReservaService;
 
 public class Main {
 
-    ServicioReservas servicio = new ServicioReservas();
+    ReservaService servicio = new ReservaService();
 
     public static void main(String[] args) {
         Main main = new Main();

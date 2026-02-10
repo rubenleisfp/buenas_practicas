@@ -2,13 +2,12 @@ package com.fp.solid.inyeccion_dependencias.pizzeria.solucion;
 
 import com.fp.solid.inyeccion_dependencias.pizzeria.solucion.model.Reserva;
 import com.fp.solid.inyeccion_dependencias.pizzeria.solucion.repository.ReservaRepository;
-import com.fp.solid.inyeccion_dependencias.pizzeria.solucion.repository.ReservaRepositoryBBDD;
 import com.fp.solid.inyeccion_dependencias.pizzeria.solucion.repository.ReservaRepositoryFichero;
-import com.fp.solid.inyeccion_dependencias.pizzeria.solucion.service.ServicioReservas;
+import com.fp.solid.inyeccion_dependencias.pizzeria.solucion.service.ReservaService;
 
 public class Main {
 
-    ServicioReservas servicioReservas;
+    ReservaService reservaService;
 
     public static void main(String[] args) {
         Main main = new Main();
@@ -29,12 +28,12 @@ public class Main {
         ReservaRepository reservaRepository = new ReservaRepositoryFichero();
         //ReservaRepository reservaRepository = new ReservaRepositoryBBDD();
         // Inyectamos el repositorio en el servicio
-        this.servicioReservas = new ServicioReservas(reservaRepository);
+        this.reservaService = new ReservaService(reservaRepository);
     }
 
     private  void probarReserva(Reserva reserva) {
         try {
-            servicioReservas.crearReserva(reserva);
+            reservaService.crearReserva(reserva);
 
             System.out.println("Reserva creada para "
                     + reserva.getEmail()

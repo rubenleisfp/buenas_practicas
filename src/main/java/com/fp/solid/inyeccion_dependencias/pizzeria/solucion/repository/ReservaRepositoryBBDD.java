@@ -26,7 +26,7 @@ public class ReservaRepositoryBBDD implements ReservaRepository {
     }
 
     @Override
-    public boolean existeReservaPara(String emailCliente) {
+    public boolean existeReserva(String emailCliente) {
         try (Connection connection = DriverHelper.getConnection()) {
 
             try (PreparedStatement ps = connection.prepareStatement(EXISTS_RESERVA)) {

@@ -19,7 +19,7 @@ public class ReservaRepositoryFichero implements ReservaRepository {
     }
 
     @Override
-    public boolean existeReservaPara(String nombreCliente) {
+    public boolean existeReserva(String nombreCliente) {
         if (!fichero.exists()) return false;
 
         try (BufferedReader br = new BufferedReader(new FileReader(fichero))) {

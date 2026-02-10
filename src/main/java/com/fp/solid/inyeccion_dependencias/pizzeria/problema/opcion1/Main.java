@@ -15,7 +15,7 @@ public class Main {
     }
 
     private  void probarReserva(Reserva reserva) {
-        ServicioReservas servicio = new ServicioReservas();
+        ReservaService servicio = new ReservaService();
         try {
             servicio.crearReserva(reserva);
 

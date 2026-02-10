@@ -4,7 +4,7 @@ package com.fp.solid.inyeccion_dependencias.pizzeria.problema.opcion2.service;
 import com.fp.solid.inyeccion_dependencias.pizzeria.problema.opcion2.model.Reserva;
 import com.fp.solid.inyeccion_dependencias.pizzeria.problema.opcion2.repository.ReservaDaoFichero;
 
-public class ServicioReservas {
+public class ReservaService {
 
     private static final int MAX_PERSONAS = 8;
     private static final int UMBRAL_RESERVA_GRANDE = 6;

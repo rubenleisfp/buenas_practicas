@@ -3,14 +3,14 @@ package com.fp.solid.inyeccion_dependencias.pizzeria.solucion.service;
 import com.fp.solid.inyeccion_dependencias.pizzeria.solucion.model.Reserva;
 import com.fp.solid.inyeccion_dependencias.pizzeria.solucion.repository.ReservaRepository;
 
-public class ServicioReservas {
+public class ReservaService {
 
     private static final int MAX_PERSONAS = 8;
     private static final int UMBRAL_RESERVA_GRANDE = 6;
 
     private final ReservaRepository reservaRepository;
 
-    public ServicioReservas(ReservaRepository reservaRepository) {
+    public ReservaService(ReservaRepository reservaRepository) {
         this.reservaRepository = reservaRepository;
     }
 
@@ -18,7 +18,7 @@ public class ServicioReservas {
 
         validarReserva(reserva);
 
-        if (reservaRepository.existeReservaPara(reserva.getEmail())) {
+        if (reservaRepository.existeReserva(reserva.getEmail())) {
             throw new IllegalStateException("El cliente ya tiene una reserva");
         }
 

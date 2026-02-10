@@ -4,5 +4,5 @@ import com.fp.solid.inyeccion_dependencias.pizzeria.solucion.model.Reserva;
 
 public interface ReservaRepository {
     void guardar(Reserva reserva);
-    boolean existeReservaPara(String nombreCliente);
+    boolean existeReserva(String nombreCliente);
 }

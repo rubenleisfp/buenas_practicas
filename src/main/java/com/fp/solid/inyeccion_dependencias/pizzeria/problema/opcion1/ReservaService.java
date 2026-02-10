@@ -2,7 +2,7 @@ package com.fp.solid.inyeccion_dependencias.pizzeria.problema.opcion1;
 
 import java.io.*;
 
-public class ServicioReservas {
+public class ReservaService {
 
     private static final int MAX_PERSONAS = 8;
     private static final int UMBRAL_RESERVA_GRANDE = 6;
