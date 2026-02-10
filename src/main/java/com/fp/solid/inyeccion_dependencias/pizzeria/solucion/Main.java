@@ -11,6 +11,10 @@ public class Main {
 
     public static void main(String[] args) {
         Main main = new Main();
+        // Unico punto de la app que deberíamos tocar para cambiar donde obtenemos o persistimos la informacion,
+        // es decir, para cambiar la implementación de mi repository
+        main.cfgInyeccion();
+
         // Casos de prueba
         main.probarReserva(new Reserva("Ana@gmail.com", 4));     // OK
         main.probarReserva(new Reserva("Luis@gmail.com", 7));    // Reserva grande

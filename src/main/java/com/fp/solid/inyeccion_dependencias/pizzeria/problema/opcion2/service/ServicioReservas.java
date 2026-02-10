@@ -1,5 +1,7 @@
 package com.fp.solid.inyeccion_dependencias.pizzeria.problema.opcion2.service;
 
+
+import com.fp.solid.inyeccion_dependencias.pizzeria.problema.opcion2.model.Reserva;
 import com.fp.solid.inyeccion_dependencias.pizzeria.problema.opcion2.repository.ReservaDaoFichero;
 
 public class ServicioReservas {
@@ -10,30 +12,33 @@ public class ServicioReservas {
     // ❌ ACOPLAMIENTO DIRECTO
     private ReservaDaoFichero reservaDao = new ReservaDaoFichero();
 
-    public void crearReserva(String nombreCliente, int numeroPersonas) {
+    public void crearReserva(Reserva reserva) {
 
-        validarReserva(nombreCliente, numeroPersonas);
+        validarReserva(reserva);
 
-        if (reservaDao.existeReserva(nombreCliente)) {
+        if (reservaDao.existeReserva(reserva.getEmail())) {
             throw new IllegalStateException("El cliente ya tiene una reserva");
         }
 
-        boolean reservaGrande = numeroPersonas > UMBRAL_RESERVA_GRANDE;
+        boolean reservaGrande = reserva.getNumeroPersonas() > UMBRAL_RESERVA_GRANDE;
+        if (reservaGrande) {
+            reserva.marcarComoReservaGrande();
+        }
 
-        reservaDao.guardar(nombreCliente, numeroPersonas, reservaGrande);
+        reservaDao.guardar(reserva);
     }
 
-    private void validarReserva(String nombreCliente, int numeroPersonas) {
+    private void validarReserva(Reserva reserva) {
 
-        if (nombreCliente == null || nombreCliente.isBlank()) {
+        if (reserva.getEmail() == null || reserva.getEmail().isBlank()) {
             throw new IllegalArgumentException("Nombre obligatorio");
         }
 
-        if (numeroPersonas <= 0) {
+        if (reserva.getNumeroPersonas() <= 0) {
             throw new IllegalArgumentException("Número de personas inválido");
         }
 
-        if (numeroPersonas > MAX_PERSONAS) {
+        if (reserva.getNumeroPersonas() > MAX_PERSONAS) {
             throw new IllegalArgumentException("No se permiten más de " + MAX_PERSONAS);
         }
     }
