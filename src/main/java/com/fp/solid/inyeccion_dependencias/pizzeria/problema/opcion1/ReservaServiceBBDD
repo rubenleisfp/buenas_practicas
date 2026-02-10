@@ -1,0 +1,95 @@
+package com.fp.solid.inyeccion_dependencias.pizzeria.problema.opcion1;
+
+import java.sql.*;
+
+public class ReservaService {
+
+    private static final int MAX_PERSONAS = 8;
+    private static final int UMBRAL_RESERVA_GRANDE = 6;
+
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/pizzeria";
+    private static final String DB_USER = "root";
+    private static final String DB_PASSWORD = "";
+
+    public void crearReserva(Reserva reserva) {
+
+        validarReserva(reserva);
+
+        if (existeReserva(reserva.getEmail())) {
+            throw new IllegalStateException("El cliente ya tiene una reserva");
+        }
+
+        boolean reservaGrande = reserva.getNumeroPersonas() > UMBRAL_RESERVA_GRANDE;
+
+        String sql = "INSERT INTO reservas (email, numero_personas, reserva_grande) VALUES (?, ?, ?)";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, reserva.getEmail());
+            pstmt.setInt(2, reserva.getNumeroPersonas());
+            pstmt.setBoolean(3, reservaGrande);
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error guardando reserva en base de datos", e);
+        }
+    }
+
+    private void validarReserva(Reserva reserva) {
+
+        if (reserva.getEmail() == null || reserva.getEmail().isBlank()) {
+            throw new IllegalArgumentException("Nombre obligatorio");
+        }
+
+        if (reserva.getNumeroPersonas() <= 0) {
+            throw new IllegalArgumentException("Número de personas inválido");
+        }
+
+        if (reserva.getNumeroPersonas() > MAX_PERSONAS) {
+            throw new IllegalArgumentException("No se permiten más de " + MAX_PERSONAS);
+        }
+    }
+
+    private boolean existeReserva(String emailCliente) {
+
+        String sql = "SELECT COUNT(*) FROM reservas WHERE email = ?";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, emailCliente);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error consultando reservas en base de datos", e);
+        }
+
+        return false;
+    }
+
+    public void crearTablaSiNoExiste() {
+        String sql = "CREATE TABLE IF NOT EXISTS reservas (" +
+                     "id INT AUTO_INCREMENT PRIMARY KEY," +
+                     "email VARCHAR(255) NOT NULL UNIQUE," +
+                     "numero_personas INT NOT NULL," +
+                     "reserva_grande BOOLEAN NOT NULL," +
+                     "fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
+                     ")";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             Statement stmt = conn.createStatement()) {
+
+            stmt.execute(sql);
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error creando tabla de reservas", e);
+        }
+    }
+}
