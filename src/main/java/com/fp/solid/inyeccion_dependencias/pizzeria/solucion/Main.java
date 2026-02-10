@@ -2,6 +2,7 @@ package com.fp.solid.inyeccion_dependencias.pizzeria.solucion;
 
 import com.fp.solid.inyeccion_dependencias.pizzeria.solucion.model.Reserva;
 import com.fp.solid.inyeccion_dependencias.pizzeria.solucion.repository.ReservaRepository;
+import com.fp.solid.inyeccion_dependencias.pizzeria.solucion.repository.ReservaRepositoryBBDD;
 import com.fp.solid.inyeccion_dependencias.pizzeria.solucion.repository.ReservaRepositoryFichero;
 import com.fp.solid.inyeccion_dependencias.pizzeria.solucion.service.ServicioReservas;
 
@@ -26,6 +27,7 @@ public class Main {
     public  void cfgInyeccion() {
         // Elegimos la implementación concreta (inyección manual)
         ReservaRepository reservaRepository = new ReservaRepositoryFichero();
+        //ReservaRepository reservaRepository = new ReservaRepositoryBBDD();
         // Inyectamos el repositorio en el servicio
         this.servicioReservas = new ServicioReservas(reservaRepository);
     }

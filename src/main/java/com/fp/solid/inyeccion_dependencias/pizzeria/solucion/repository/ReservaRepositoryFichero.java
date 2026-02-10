@@ -6,7 +6,7 @@ import java.io.*;
 
 public class ReservaRepositoryFichero implements ReservaRepository {
 
-    private File fichero = new File("reservas.txt");
+    private File fichero = new File("reservas_solucion.txt");
 
     @Override
     public void guardar(Reserva reserva) {
