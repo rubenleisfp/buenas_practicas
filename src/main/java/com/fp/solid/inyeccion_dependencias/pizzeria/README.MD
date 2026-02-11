@@ -1,5 +1,8 @@
 # Requisitos - ServicioReservas (Pizzería)
 
+## Explicación
+https://www.youtube.com/watch?v=e6jhmN3dD7Y
+
 ## Funcionalidad Principal
 - **Crear reservas**: El sistema debe permitir crear nuevas reservas de clientes en la pizzería
 
@@ -37,3 +40,5 @@
 - **email**: String - Identificador único del cliente
 - **numeroPersonas**: int - Cantidad de personas para la reserva
 - **reservaGrande**: boolean - Indica si es una reserva grande (>6 personas)
+
+
