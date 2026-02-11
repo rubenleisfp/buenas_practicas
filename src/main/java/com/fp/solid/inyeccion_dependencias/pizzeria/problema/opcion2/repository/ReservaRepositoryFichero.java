@@ -4,7 +4,7 @@ import com.fp.solid.inyeccion_dependencias.pizzeria.problema.opcion2.model.Reser
 
 import java.io.*;
 
-public class ReservaDaoFichero {
+public class ReservaRepositoryFichero {
 
     private static final String FICHERO = "reservas_opcion2.txt";
 

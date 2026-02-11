@@ -2,7 +2,8 @@ package com.fp.solid.inyeccion_dependencias.pizzeria.problema.opcion2.service;
 
 
 import com.fp.solid.inyeccion_dependencias.pizzeria.problema.opcion2.model.Reserva;
-import com.fp.solid.inyeccion_dependencias.pizzeria.problema.opcion2.repository.ReservaDaoFichero;
+import com.fp.solid.inyeccion_dependencias.pizzeria.problema.opcion2.repository.ReservaRepositoryBBDD;
+import com.fp.solid.inyeccion_dependencias.pizzeria.problema.opcion2.repository.ReservaRepositoryFichero;
 
 public class ReservaService {
 
@@ -10,13 +11,14 @@ public class ReservaService {
     private static final int UMBRAL_RESERVA_GRANDE = 6;
 
     // ❌ ACOPLAMIENTO DIRECTO
-    private ReservaDaoFichero reservaDao = new ReservaDaoFichero();
+    private ReservaRepositoryFichero reservaRepository = new ReservaRepositoryFichero();
+    //private ReservaRepositoryBBDD reservaRepository = new ReservaRepositoryBBDD();
 
     public void crearReserva(Reserva reserva) {
 
         validarReserva(reserva);
 
-        if (reservaDao.existeReserva(reserva.getEmail())) {
+        if (reservaRepository.existeReserva(reserva.getEmail())) {
             throw new IllegalStateException("El cliente ya tiene una reserva");
         }
 
@@ -25,7 +27,7 @@ public class ReservaService {
             reserva.marcarComoReservaGrande();
         }
 
-        reservaDao.guardar(reserva);
+        reservaRepository.guardar(reserva);
     }
 
     private void validarReserva(Reserva reserva) {
