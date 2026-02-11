@@ -7,9 +7,12 @@ public class ReservaService {
     private static final int MAX_PERSONAS = 8;
     private static final int UMBRAL_RESERVA_GRANDE = 6;
 
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/pizzeria";
+    private static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/buenas_practicas?serverTimezone=UTC";
     private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "";
+    private static final String DB_PASSWORD = "castelao";
+
+    private static final String INSERT_RESERVA = "INSERT INTO reserva (email, numero_personas, reserva_grande, fecha_creacion) VALUES (?, ?, ?, NOW())";
+    private static final String EXISTS_RESERVA = "SELECT count(*) FROM reserva WHERE email = ?";
 
     public void crearReserva(Reserva reserva) {
 
@@ -21,10 +24,8 @@ public class ReservaService {
 
         boolean reservaGrande = reserva.getNumeroPersonas() > UMBRAL_RESERVA_GRANDE;
 
-        String sql = "INSERT INTO reservas (email, numero_personas, reserva_grande) VALUES (?, ?, ?)";
-
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstmt = conn.prepareStatement(INSERT_RESERVA)) {
 
             pstmt.setString(1, reserva.getEmail());
             pstmt.setInt(2, reserva.getNumeroPersonas());
@@ -53,11 +54,8 @@ public class ReservaService {
     }
 
     private boolean existeReserva(String emailCliente) {
-
-        String sql = "SELECT COUNT(*) FROM reservas WHERE email = ?";
-
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstmt = conn.prepareStatement(EXISTS_RESERVA)) {
 
             pstmt.setString(1, emailCliente);
 
@@ -66,7 +64,6 @@ public class ReservaService {
                     return rs.getInt(1) > 0;
                 }
             }
-
         } catch (SQLException e) {
             throw new RuntimeException("Error consultando reservas en base de datos", e);
         }
@@ -74,22 +71,4 @@ public class ReservaService {
         return false;
     }
 
-    public void crearTablaSiNoExiste() {
-        String sql = "CREATE TABLE IF NOT EXISTS reservas (" +
-                     "id INT AUTO_INCREMENT PRIMARY KEY," +
-                     "email VARCHAR(255) NOT NULL UNIQUE," +
-                     "numero_personas INT NOT NULL," +
-                     "reserva_grande BOOLEAN NOT NULL," +
-                     "fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
-                     ")";
-
-        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-             Statement stmt = conn.createStatement()) {
-
-            stmt.execute(sql);
-
-        } catch (SQLException e) {
-            throw new RuntimeException("Error creando tabla de reservas", e);
-        }
-    }
 }
