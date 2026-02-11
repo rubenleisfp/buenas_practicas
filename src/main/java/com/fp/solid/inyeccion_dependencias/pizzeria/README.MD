@@ -10,6 +10,7 @@
 - **Número de personas válido**: El número de personas debe ser mayor que 0
 - **Límite máximo de personas**: No se permiten reservas para más de 8 personas por mesa
 - **Umbral de reserva grande**: Se considera reserva grande cuando el número de personas es mayor a 6
+- **Dobles reservas**: Si una persona ya ha reservado no se le permite volver a reservar
 
 ### Almacenamiento
 - **Archivo de texto**: Las reservas se almacenan en el archivo `reservas_opcion1.txt`
